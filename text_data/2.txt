@@ -1,0 +1,11 @@
+Title:ノルウェイの森
+Country: 英、仏
+Number: 2
+Source: TopFuel
+Organization: 規制庁、東芝
+Path: C:\Users\mctki\Desktop\2.txt
+
+*** START 
+この商品について
+高さ調整機能: 最大140
+*** END 
