@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from flask_paginate import Pagination, get_page_parameter
-from FRSE import app
+from myapp import app
 from elasticsearch import Elasticsearch
 import os
 import re
