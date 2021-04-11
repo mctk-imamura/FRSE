@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="application-body">
+    <br>
+
+    <div class="search-form">
+        <form action="{{ url_for('show_results') }}" method=post>
+        <div class="form-group">
+            <label for="search_word">全文検索</label>
+            <input type="text" class="form-control" id="search_word" name=search_word placeholder="タイトルまたは本文", value={{request_form.search_word}}>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="title">タイトル</label>
+                    <input type="text" class="form-control" id="title" name="title"  placeholder="タイトル", value={{request_form.title}}>
+                </div>
+                <div class="col-md-3">
+                    <label for="country">国名</label>
+                    <input type="text" class="form-control" id="country" name=country  placeholder="日、米　等", value={{request_form.country}}>
+                </div>
+                <div class="col-md-3">
+                    <label for="organization">機関</label>
+                    <input type="text" class="form-control" id="organization" name=organization  placeholder="NRC、EPRI　等", value={{request_form.organization}}>
+                </div>
+                <div class="col-md-3">
+                    <label for="source">情報源</label>
+                    <input type="text" class="form-control" id="source" name=source  placeholder="TopFuel、NuclearFuel 等", value={{request_form.source}}>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="number_min">記事番号(これ以降)</label>
+                    <input type="long" class="form-control" id="number_min" name=number_min placeholder="記事番号6桁", value={{request_form.number_min}}>
+                </div>
+                <div class="col-md-3">
+                    <label for="number_max">記事番号(これ以前)</label>
+                    <input type="long" class="form-control" id="number_max" name=number_max placeholder="記事番号6桁", value={{request_form.number_max}}>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">検索</button>
+        </form>
+    </div>
+<br>
+
+<!-- 検索結果 {{ result_num }}件 -->
+{{ pagination.info }}
+{{ pagination.links }}
+{% for book in books %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="card-title"><a href={{ book._source.path }}>{{ book._source.title }}</a></h4>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="card-title">記事番号：{{ book._source.number }}</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="card-title">国名：{{ book._source.country }}</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="card-title">機関：{{ book._source.organization }}</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="card-title">情報源：{{ book._source.source }}</h5>
+                </div>
+                <div class="col-md-12">
+                    <p class="card-text">
+                        {% if book.highlight  %}
+                            <!-- {{ book._source.content }} -->
+                            {{ book.highlight.content[0] | safe }}
+                            {% else %}
+                                 {{ book._source.content }}
+                            {% endif %}
+                        </p>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+{% else %}
+    投稿がありません
+{% endfor %}
+    </div>
+{% endblock %}
